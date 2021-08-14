@@ -57,7 +57,6 @@ $(function() {
             username: $('#form_login [name=aount]').val(),
             password: $('#form_login [name=password]').val(),
         }
-        $.ajaxPrefilter()
         $.ajax({
             url: '/api/login',
             method: 'POST',
