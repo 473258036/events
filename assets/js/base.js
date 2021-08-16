@@ -3,5 +3,22 @@
 // 在这个函数中，可以拿到我们给Ajax提供的配置对象
 $.ajaxPrefilter(function(options) {
     // 在发起真正的 Ajax 请求之前，统一拼接请求的根路径
-    options.url = 'http://www.liulongbin.top:3008' + options.url
+    options.url = 'http://www.liulongbin.top:3008' + options.url;
+
+    //再发起ajax请求之前,判断如果options.url里面有/my/则统一加上请求头
+    if (options.url.includes('/my/')) {
+        options.headers = {
+            Authorization: localStorage.getItem('token') || ''
+        }
+    }
+    //全局挂载complete
+    options.complete = (res) => {
+        if (res.responseJSON.code == 1) {
+            //清空token
+            localStorage.removeItem('token')
+            location.href = 'login.html'
+        }
+    }
+
+
 })
